@@ -1,7 +1,7 @@
 import React from 'react';
-import { useClasses } from "./Style";
+import { useClasses } from './Style';
 import clsx from 'clsx';
-import fishImg from '/public/fish.png';
+import fishImg from './fish.png';
 
 export type FishProps = {
     x: number;

@@ -9,6 +9,9 @@ type FishStyleProps = {
 
 export const useClasses = makeStyles<Theme, FishStyleProps>({
     root: ({x, y, rotation}) => ({
-        transform: `translateX(${x}px) translateY(${y}px) rotate(${rotation}rad)`
+        transform: `translateX(${x}px) translateY(${y}px) rotate(${rotation}rad)`,
+        width: 90,
+        height: 40,
+        objectFit: 'contain'
     })
 });
