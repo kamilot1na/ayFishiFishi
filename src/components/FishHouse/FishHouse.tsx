@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import {useFishesHttpQuery} from "./api/useFishesHttpQuery";
 import {FishComponent, FishProps} from "../Fish/FishComponent";
 import {useCurrentTime} from "../../common/hooks/useCurrentTime";
+import {useMessageHandler} from "../../common/hooks/useMessageHandler";
 
 type Fish = FishProps & {
     id: number;
@@ -11,18 +12,11 @@ type Fish = FishProps & {
 
 export const FishHouse = () => {
     const classes = useClasses();
-    const { refetch } = useFishesHttpQuery();
     const [data, setData] = useState<Fish[]>([]);
-    const currentTime = useCurrentTime(500);
 
-    const refetchData = useCallback(async () => {
-        const newData = await refetch();
+    useMessageHandler('fishData', (newData: Fish[]) => {
         setData(newData);
-    }, [refetch, setData])
-
-    useEffect(() => {
-        refetchData();
-    }, [currentTime, refetchData]);
+    });
 
     return (
         <div className={clsx(classes.root)} >
