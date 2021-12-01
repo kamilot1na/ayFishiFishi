@@ -33,9 +33,9 @@ namespace FishHouse
 
         private void FishMoving(Fish fish)
         {
-            while (Fishes.ContainsKey(fish.Id))
+            while (Fishes.TryGetValue(fish.Id, out var f))
             {
-                Fishes[fish.Id].Move();
+                f.Move();
             }
         }
     }
