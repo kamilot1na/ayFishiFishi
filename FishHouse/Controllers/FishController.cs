@@ -24,5 +24,9 @@ namespace FishHouse.Controllers
         [HttpDelete]
         public void KillFish() =>
             _pool.Kill();
+
+        [HttpDelete("all")]
+        public void KillAllFish() =>
+            _pool.KillAll();
     }
 }

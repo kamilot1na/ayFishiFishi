@@ -38,6 +38,10 @@ namespace FishHouse
             }
         }
 
+        public void KillAll() =>
+            Fishes.Clear();
+
+
         private void StartTask(Fish fish)
         {
             if (fish.Type == FishType.Task)
