@@ -9,11 +9,12 @@ export type PoolProps = {
   onFishClick: (fish: FishData) => void;
   selected: FishData | null;
   onClick: () => void;
+  divRef?: React.RefObject<HTMLDivElement>;
 }
 
-export const Pool = ({ fishes, onFishClick, selected }: PoolProps) => {
+export const Pool = ({ fishes, onFishClick, selected, divRef }: PoolProps) => {
   return (
-    <Styled.Root>
+    <Styled.Root ref={divRef}>
       <Styled.Image src={pool} alt="pool" />
       {fishes.map(fish => (
         <FishComponent

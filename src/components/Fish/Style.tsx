@@ -14,8 +14,10 @@ export const useClasses = makeStyles<Theme, FishStyleProps>({
         width: 90,
         height: 40,
         objectFit: 'contain',
-        boxShadow: (isSelected ? '0px 0px 14px 6px rgba(255, 255, 255, 0.5)' : undefined),
-        opacity: 0.9
+        filter: (isSelected ? 'drop-shadow( 0px 0px 6px rgba(255, 255, 255, 0.9) )' : undefined),
+        opacity: 0.9,
+        cursor: 'pointer',
+        userSelect: 'none'
     }),
     nameWrapper: ({x, y, isSelected}) => ({
         transform: `translateX(${x+20}px) translateY(${y-50}px)`,
@@ -23,6 +25,7 @@ export const useClasses = makeStyles<Theme, FishStyleProps>({
         backgroundColor: (isSelected ? 'rgba(255,200,0,0.5)' : 'rgba(0,0,0,0.5)'),
         color: 'white',
         display: 'inline',
-        position: 'absolute'
+        position: 'absolute',
+        userSelect: 'none'
     })
 });
