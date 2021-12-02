@@ -1,6 +1,7 @@
 import React from 'react';
 import { FishData } from 'common';
 import { Button, TextField } from '@material-ui/core';
+import { DeleteButton } from 'ui-kit';
 import { Styled } from './Style';
 import { useFishSaveHttpRequest } from './useFishSaveHttpRequest';
 
@@ -20,11 +21,18 @@ export const FishEdit = ({ fish }: FishEditProps) => {
         defaultValue="<Not Implemented>"
       />
 
-      <Button
-        disabled
-        value="Сохранить"
-        onClick={call}
-      />
+      <Styled.ButtonWrapper>
+        <Button
+          disabled
+          variant="outlined"
+          onClick={call}
+        >Сохранить</Button>
+
+        <DeleteButton
+          variant="outlined"
+          onClick={call}
+        >Удалить</DeleteButton>
+      </Styled.ButtonWrapper>
     </Styled.Root>
   );
 };
