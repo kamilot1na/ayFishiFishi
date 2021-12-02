@@ -2,7 +2,8 @@ import React, { FC, useState } from 'react';
 import { ClientSettings, NetworkMode } from '../types';
 
 const defaultSettings: ClientSettings = {
-  networkMode: NetworkMode.Lockstep
+  networkMode: NetworkMode.Lockstep,
+  updateFrequency: 100
 };
 
 export const SettingsContext =

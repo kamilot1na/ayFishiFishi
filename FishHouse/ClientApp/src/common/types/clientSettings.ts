@@ -5,4 +5,5 @@ export enum NetworkMode {
 
 export type ClientSettings = {
   networkMode: NetworkMode;
+  updateFrequency: number;
 }

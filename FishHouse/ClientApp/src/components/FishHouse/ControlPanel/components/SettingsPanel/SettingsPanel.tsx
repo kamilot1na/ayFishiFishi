@@ -18,6 +18,15 @@ export const SettingsPanel = ({ onCloseClick }: SettingsPanelProps) => {
     );
   }, [setSettings]);
 
+  const handleUpdateFrequencyChange = useCallback((e: React.ChangeEvent<{ value: string }>) => {
+    setSettings((prevSettings) =>
+      ({
+        ...prevSettings,
+        updateFrequency: Number(e.target.value)
+      })
+    );
+  }, [setSettings]);
+
   return (
     <Styled.Root>
       <Styled.Label align='center' variant='h6'>Настройки</Styled.Label>
@@ -33,6 +42,17 @@ export const SettingsPanel = ({ onCloseClick }: SettingsPanelProps) => {
         <MenuItem value={NetworkMode.Lockstep}>Lockstep</MenuItem>
         <MenuItem value={NetworkMode.Predictive}>Predictive</MenuItem>
       </TextField>
+
+      <br />
+
+      <TextField
+        label="Частота обнавления (мс)"
+        variant="outlined"
+        size="small"
+        value={settings.updateFrequency}
+        type='number'
+        onChange={handleUpdateFrequencyChange}
+      />
 
       <br />
 

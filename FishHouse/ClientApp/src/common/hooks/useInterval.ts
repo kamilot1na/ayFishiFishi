@@ -13,7 +13,7 @@ export const useInterval = (interval = 1000) => {
         return () => {
             clearInterval(target);
         };
-    }, []);
+    }, [interval]);
 
     return currentTime;
 };

@@ -55,12 +55,12 @@ export const FishHouse = () => {
   const poolRef = useRef<HTMLDivElement>(null);
 
   const lastUpdateTime = useRef(moment.now());
-  const lastDeltaUpdateTime = useRef(100);
+  const lastDeltaUpdateTime = useRef(settings.updateFrequency);
 
   const lastPredictiveStepTime = useRef(moment.now());
   const lastDeltaPredictiveStepTime = useRef(10);
 
-  const updateInterval = useInterval(100);
+  const updateInterval = useInterval(settings.updateFrequency);
   const predictiveStepInterval = useInterval(10);
 
   const { send: sendDataRequest } = useMessageSender(FISH_DATA_REQUEST_MESSAGE);
@@ -101,10 +101,10 @@ export const FishHouse = () => {
             fish,
             lastDeltaPredictiveStepTime.current / lastDeltaUpdateTime.current
           ));
-        lastDeltaPredictiveStepTime.current = moment.now() - lastPredictiveStepTime.current;
-        lastPredictiveStepTime.current = moment.now();
         return newState;
       });
+    lastDeltaPredictiveStepTime.current = moment.now() - lastPredictiveStepTime.current;
+    lastPredictiveStepTime.current = moment.now();
   }, [predictiveStepInterval, lastDeltaUpdateTime]);
 
   // for testing
