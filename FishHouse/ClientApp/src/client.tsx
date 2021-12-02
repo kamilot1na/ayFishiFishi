@@ -1,9 +1,9 @@
 import * as signalR from '@microsoft/signalr';
 import React, { FC } from 'react';
 
-const connection = new signalR.HubConnectionBuilder().withUrl(`${window.location.origin}/hub`).build();
+const connection = new signalR.HubConnectionBuilder().withUrl(`${window.location.origin}/fishes`).build();
 
-connection.start().catch(err => console.log(err));
+connection.start();
 
 export const ConnectionContext = React.createContext(connection);
 
