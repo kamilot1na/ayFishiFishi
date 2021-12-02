@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 
 const connection = new signalR.HubConnectionBuilder().withUrl(`${window.location.origin}/fishes`).build();
 
-connection.start();
+connection.start().catch(e => console.log(e));
 
 export const ConnectionContext = React.createContext(connection);
 

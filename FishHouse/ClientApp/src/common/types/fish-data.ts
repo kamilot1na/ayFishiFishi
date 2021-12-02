@@ -9,4 +9,5 @@ export type FishData = {
     rotation: number;
     state?: unknown;
     id: string;
+    name: string;
 }

@@ -18,9 +18,7 @@ export const Pool = ({ fishes, onFishClick, selected, divRef }: PoolProps) => {
       <Styled.Image src={pool} alt="pool" />
       {fishes.map(fish => (
         <FishComponent
-          x={fish.x}
-          y={fish.y}
-          rotation={fish.rotation}
+          fish={fish}
           key={fish.id}
           onClick={() => onFishClick(fish)}
           isSelected={selected !== null && selected.id === fish.id}

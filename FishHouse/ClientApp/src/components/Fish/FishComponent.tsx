@@ -1,21 +1,28 @@
 import React from 'react';
 import clsx from 'clsx';
-import { FishData } from 'common';
+import { clampRotation, FishData } from 'common';
 import { useClasses } from './Style';
 import fishImg from './fish.png';
 
-export type FishProps = Omit<FishData, 'id'> & {
+export type FishProps = {
+  fish: FishData;
   onClick?: () => void;
   isSelected: boolean;
 };
 
-export const FishComponent = ({ x, y, rotation, onClick, isSelected }: FishProps) => {
-  const classes = useClasses({ x, y, rotation, isSelected });
+export const FishComponent = ({ fish, onClick, isSelected }: FishProps) => {
+  const { x, y, rotation, name } = fish;
+  const clampedRotation = clampRotation(rotation);
+  let flipped = false;
+  if(Math.abs(clampedRotation) >= Math.PI/2 && Math.abs(clampedRotation) <= 3*Math.PI / 2)
+    flipped = true;
+
+  const classes = useClasses({ x, y, rotation, isSelected, flipped });
 
   return (
     <div>
       <div className={clsx(classes.nameWrapper)} >
-        <span>Name</span>
+        <span>{name}</span>
       </div>
       <img
         src={fishImg}

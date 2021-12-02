@@ -7,17 +7,23 @@ import { useFishCreateHttpRequest } from './useFishCreateHttpRequest';
 export const FishCreate = () => {
   const { call, loading } = useFishCreateHttpRequest();
   const [fishType, setFishType] = useState(FishType.Thread);
+  const [fishName, setFishName] = useState('Name');
 
   const handleFishTypeChange = useCallback((e: React.ChangeEvent<{ value: unknown }>) => {
     setFishType(e.target.value as FishType);
   }, [setFishType]);
 
+  const handleFishNameChange = useCallback((e: React.ChangeEvent<{ value: string }>) => {
+    setFishName(e.target.value);
+  }, [setFishName]);
+
   return (
     <Styled.Root>
       <TextField
-        disabled
         label="Name"
-        defaultValue="<Not Implemented>"
+        defaultValue="Name"
+        value={fishName}
+        onChange={handleFishNameChange}
       />
 
       <br />
@@ -36,7 +42,7 @@ export const FishCreate = () => {
       <Button
         variant="outlined"
         disabled={loading}
-        onClick={() => call(fishType)}
+        onClick={() => call(fishType, fishName)}
       >
         Создать
       </Button>

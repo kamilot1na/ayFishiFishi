@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import moment from 'moment';
 
-export const useCurrentTime = (interval = 1000) => {
+export const useInterval = (interval = 1000) => {
     const [currentTime, setCurrentTime] = useState(moment());
 
     useEffect(() => {
@@ -15,7 +15,5 @@ export const useCurrentTime = (interval = 1000) => {
         };
     }, []);
 
-    return {
-        currentTime,
-    };
+    return currentTime;
 };

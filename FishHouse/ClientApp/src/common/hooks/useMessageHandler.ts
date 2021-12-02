@@ -5,6 +5,6 @@ export const useMessageHandler = (messageType: string, callback: (...args: any[]
     const connection = useConnection();
     useEffect(() => {
         connection.on(messageType, callback);
-        return connection.off(messageType, callback);
-    }, []);
+        return () => connection.off(messageType, callback);
+    }, [messageType, callback]);
 }

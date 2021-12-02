@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { FishData, useMessageHandler } from 'common';
+import { FishData, useInterval, useMessageHandler, useMessageSender } from 'common';
 
 import { Styled } from './Style';
 import { ControlPanel } from './ControlPanel';
@@ -15,28 +15,38 @@ type FishDTO = {
   x: number;
   y: number;
   direction: FishDirection;
+  name: string;
 };
 
 const FISH_DATA_MESSAGE = 'ReceiveMessage';
+const FISH_DATA_REQUEST_MESSAGE = 'SendMessage';
 
 export const FishHouse = () => {
   const [data, setData] = useState<FishData[]>([/* { x: 500, y: 500, rotation: 0, id: v4() } */]);
   const [selected, setSelected] = useState<FishData | null>(null);
   const poolRef = useRef<HTMLDivElement>(null);
 
+  const currentTime = useInterval(100);
+  const { send: sendDataRequest } = useMessageSender(FISH_DATA_REQUEST_MESSAGE);
+
   useMessageHandler(FISH_DATA_MESSAGE, (dtos: FishDTO[]) => {
     const newData = dtos.map(dto => ({
       id: dto.id,
       x: dto.x,
       y: dto.y,
-      rotation: dto.direction === FishDirection.Left ? Math.PI : 0,
+      rotation: dto.direction === FishDirection.Right ? Math.PI : 0,
+      name: dto.name
     }));
 
     setData(newData);
   });
 
+  useEffect(() => {
+      sendDataRequest();
+  }, [currentTime]);
+
   // for testing
-  /* const { currentTime } = useCurrentTime(10);
+  /* const currentTime = useInterval(10);
 
   useEffect(() => {
     setData(prevState =>
