@@ -29,6 +29,7 @@ export const FishEdit = ({ fish }: FishEditProps) => {
         >Сохранить</Button>
 
         <DeleteButton
+          disabled
           variant="outlined"
           onClick={call}
         >Удалить</DeleteButton>
