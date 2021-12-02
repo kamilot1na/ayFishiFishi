@@ -14,7 +14,7 @@ namespace FishHouse.Hubs
 
         public async Task SendMessage()
         {
-            await Clients.All.SendAsync("ReceiveMessage", _pool.GetFishes());
+            await Clients.Caller.SendAsync("ReceiveMessage", _pool.GetFishes());
         }
     }
 }

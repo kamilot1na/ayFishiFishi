@@ -22,7 +22,7 @@ export const useClasses = makeStyles<Theme, FishStyleProps>({
         position: 'absolute'
     }),
     nameWrapper: ({x, y, isSelected, flipped}) => ({
-        transform: `translateX(${x+(flipped ? 30 : -10)}px) translateY(${y-50}px)`,
+        transform: `translateX(${x+(flipped ? 30 : 5)}px) translateY(${y-50}px)`,
         padding: '4px',
         backgroundColor: (isSelected ? 'rgba(255,200,0,0.5)' : 'rgba(0,0,0,0.5)'),
         color: 'white',
