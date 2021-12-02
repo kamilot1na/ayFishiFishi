@@ -94,14 +94,13 @@ export const FishHouse = () => {
       setData(prevState => {
         const lastDataById = keyBy(lastData, 'id');
         const currentDataById = keyBy(currentData, 'id');
-        const newState = prevState.map(fish =>
+        return prevState.map(fish =>
           predictNextPosition(
             lastDataById[fish.id],
             currentDataById[fish.id],
             fish,
             lastDeltaPredictiveStepTime.current / lastDeltaUpdateTime.current
           ));
-        return newState;
       });
     lastDeltaPredictiveStepTime.current = moment.now() - lastPredictiveStepTime.current;
     lastPredictiveStepTime.current = moment.now();
