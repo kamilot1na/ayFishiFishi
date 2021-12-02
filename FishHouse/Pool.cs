@@ -18,7 +18,7 @@ namespace FishHouse
         public void AddFish(FishType type, string name)
         {
             var random = new Random();
-            var fish = new Fish(type, random.Next(0, 600), random.Next(0, 600), name);
+            var fish = new Fish(type, random.Next(0, 600), random.Next(40, 600), name);
             Fishes.TryAdd(fish.Id, fish);
             StartTask(fish);
         }

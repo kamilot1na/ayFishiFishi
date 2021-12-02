@@ -18,7 +18,8 @@ export const FishEdit = ({ fish }: FishEditProps) => {
       <TextField
         disabled
         label="Name"
-        defaultValue="<Not Implemented>"
+        defaultValue="<Name>"
+        value={fish.name}
       />
 
       <Styled.ButtonWrapper>
