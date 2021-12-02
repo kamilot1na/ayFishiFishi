@@ -1,11 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import clsx from 'clsx';
 import { FishData, useMessageHandler, useCurrentTime } from 'common';
 
 import { v4 } from 'uuid';
-import { FishComponent } from '../Fish';
-import { useClasses } from './Style';
+import { Styled } from './Style';
 import { ControlPanel } from './ControlPanel';
+import { Pool } from './Pool/Pool';
 
 enum FishDirection {
   Right,
@@ -33,7 +32,6 @@ const clampRotation = (current: number) => {
 const FISH_DATA_MESSAGE = 'ReceiveMessage';
 
 export const FishHouse = () => {
-  const classes = useClasses();
   const [data, setData] = useState<FishData[]>([{ x: 500, y: 500, rotation: 0, id: v4() }]);
   const [selected, setSelected] = useState<FishData | null>(null);
   const { currentTime } = useCurrentTime(10);
@@ -49,7 +47,7 @@ export const FishHouse = () => {
     setData(newData);
   });
 
-  //TODO: remove
+  // TODO: remove
   useEffect(() => {
     setData(prevState =>
       prevState.map(fish => ({
@@ -61,31 +59,19 @@ export const FishHouse = () => {
     );
   }, [currentTime]);
 
-  const handleClickAway = useCallback((e: MouseEvent) => {
-    if(e.currentTarget === e.target)
-      setSelected(null);
+  const handleClickAway = useCallback(() => {
+    setSelected(null);
   }, [setSelected]);
 
-  useEffect(() => {
-    document.body.addEventListener('click', handleClickAway, true);
-    return () => document.body.removeEventListener('click', handleClickAway);
-  }, [handleClickAway])
-
   return (
-    <div className={clsx(classes.root)}>
-      <div className={clsx(classes.pool)}>
-        {data.map(fish => (
-          <FishComponent
-            x={fish.x}
-            y={fish.y}
-            rotation={fish.rotation}
-            key={fish.id}
-            onClick={() => setSelected(fish)}
-          />
-        ))}
-      </div>
-
+    <Styled.Root>
+      <Pool
+        onClick={handleClickAway}
+        fishes={data}
+        onFishClick={(fish) => setSelected(fish)}
+        selected={selected}
+      />
       <ControlPanel selected={selected}/>
-    </div>
+    </Styled.Root>
   );
 };
