@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { FishType } from 'common';
-import { Button, MenuItem, Select, TextField } from '@material-ui/core';
+import { Button, MenuItem, TextField } from '@material-ui/core';
 import { Styled } from './Style';
 import { useFishCreateHttpRequest } from './useFishCreateHttpRequest';
 
@@ -19,23 +19,29 @@ export const FishCreate = () => {
 
   return (
     <Styled.Root>
+      <Styled.Label align='center' variant='h6'>Создание</Styled.Label>
+
       <TextField
-        label="Name"
-        defaultValue="Name"
+        label="Имя"
         value={fishName}
         onChange={handleFishNameChange}
+        variant="outlined"
+        size="small"
       />
 
       <br />
 
-      <Select
+      <TextField
+        select
         value={fishType}
         label="Тип"
         onChange={handleFishTypeChange}
+        variant="outlined"
+        size="small"
       >
         <MenuItem value={FishType.Thread}>Thread</MenuItem>
         <MenuItem value={FishType.Task}>Task</MenuItem>
-      </Select>
+      </TextField>
 
       <br />
 

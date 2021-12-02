@@ -1,4 +1,4 @@
-import { styled } from '@material-ui/core';
+import { styled, Typography } from '@material-ui/core';
 
 const Root = styled('div')({
     display: 'flex',
@@ -12,7 +12,12 @@ const ButtonWrapper = styled('div')({
     columnGap: '4px'
 });
 
+const Label = styled(Typography)({
+    marginBottom: '12px'
+});
+
 export const Styled = {
     Root,
-    ButtonWrapper
+    ButtonWrapper,
+    Label
 };

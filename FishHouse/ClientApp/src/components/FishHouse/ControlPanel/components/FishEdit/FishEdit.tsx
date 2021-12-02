@@ -15,10 +15,13 @@ export const FishEdit = ({ fish }: FishEditProps) => {
 
   return (
     <Styled.Root>
+      <Styled.Label align='center' variant='h6'>Редактирование</Styled.Label>
+
       <TextField
         disabled
-        label="Name"
-        defaultValue="<Name>"
+        label="Имя"
+        variant="outlined"
+        size="small"
         value={fish.name}
       />
 

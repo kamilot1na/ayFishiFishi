@@ -1,5 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { FishData, useInterval, useMessageHandler, useMessageSender } from 'common';
+import { keyBy } from 'lodash';
+import { FishData, NetworkMode, useInterval, useMessageHandler, useMessageSender, useSettings } from 'common';
+import moment from 'moment';
 
 import { Styled } from './Style';
 import { ControlPanel } from './ControlPanel';
@@ -18,15 +20,49 @@ type FishDTO = {
   name: string;
 };
 
+const predictNextPosition = (
+  lastState: FishData | undefined,
+  currentState: FishData | undefined,
+  prevState: FishData,
+  deltaTime: number
+): FishData => {
+  if(!lastState || !currentState)
+    return prevState;
+
+  const deltaX = currentState.x - lastState.x;
+  const deltaY = currentState.y - lastState.y;
+
+  const newState = {
+    x: prevState.x + deltaX * deltaTime,
+    y: prevState.y + deltaY * deltaTime
+  }
+
+  return {
+    ...prevState,
+    ...newState
+  };
+}
+
 const FISH_DATA_MESSAGE = 'ReceiveMessage';
 const FISH_DATA_REQUEST_MESSAGE = 'SendMessage';
 
 export const FishHouse = () => {
   const [data, setData] = useState<FishData[]>([/* { x: 500, y: 500, rotation: 0, id: v4() } */]);
+  const [lastData, setLastData] = useState<FishData[]>([]);
+  const [currentData, setCurrentData] = useState<FishData[]>([]);
   const [selected, setSelected] = useState<FishData | null>(null);
+  const { settings } = useSettings();
   const poolRef = useRef<HTMLDivElement>(null);
 
-  const currentTime = useInterval(100);
+  const lastUpdateTime = useRef(moment.now());
+  const lastDeltaUpdateTime = useRef(100);
+
+  const lastPredictiveStepTime = useRef(moment.now());
+  const lastDeltaPredictiveStepTime = useRef(10);
+
+  const updateInterval = useInterval(100);
+  const predictiveStepInterval = useInterval(10);
+
   const { send: sendDataRequest } = useMessageSender(FISH_DATA_REQUEST_MESSAGE);
 
   useMessageHandler(FISH_DATA_MESSAGE, (dtos: FishDTO[]) => {
@@ -38,12 +74,38 @@ export const FishHouse = () => {
       name: dto.name
     }));
 
+    setCurrentData(prevData => {
+      setLastData(prevData);
+      return newData;
+    });
+
     setData(newData);
+
+    lastDeltaUpdateTime.current = moment.now() - lastUpdateTime.current;
+    lastUpdateTime.current = moment.now();
   });
 
   useEffect(() => {
       sendDataRequest();
-  }, [currentTime]);
+  }, [updateInterval]);
+
+  useEffect(() => {
+    if(settings.networkMode === NetworkMode.Predictive)
+      setData(prevState => {
+        const lastDataById = keyBy(lastData, 'id');
+        const currentDataById = keyBy(currentData, 'id');
+        const newState = prevState.map(fish =>
+          predictNextPosition(
+            lastDataById[fish.id],
+            currentDataById[fish.id],
+            fish,
+            lastDeltaPredictiveStepTime.current / lastDeltaUpdateTime.current
+          ));
+        lastDeltaPredictiveStepTime.current = moment.now() - lastPredictiveStepTime.current;
+        lastPredictiveStepTime.current = moment.now();
+        return newState;
+      });
+  }, [predictiveStepInterval, lastDeltaUpdateTime]);
 
   // for testing
   /* const currentTime = useInterval(10);
