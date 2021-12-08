@@ -10,10 +10,9 @@ namespace FishHouse
 {
     public class Pool
     {
-        private const int UPDATE_DELAY = 10;
+        private const int UpdateDelay = 10;
         public readonly ConcurrentDictionary<Guid, Fish> Fishes = new();
-        public int Width { get; private set; } = 1024;
-        public int Height { get; private set; } = 768;
+        public int Width => 1024;
 
         public void AddFish(FishType type, string name)
         {
@@ -60,19 +59,19 @@ namespace FishHouse
 
         private void FishMovingThread(Fish fish)
         {
-            while (Fishes.TryGetValue(fish.Id, out var f))
+            while (Fishes.ContainsKey(fish.Id))
             {
                 MoveFish(fish);
-                Thread.Sleep(UPDATE_DELAY);
+                Thread.Sleep(UpdateDelay);
             }
         }
 
         private async Task FishMovingTask(Fish fish)
         {
-            while (Fishes.TryGetValue(fish.Id, out var f))
+            while (Fishes.ContainsKey(fish.Id))
             {
                 MoveFish(fish);
-                await Task.Delay(UPDATE_DELAY);
+                await Task.Delay(UpdateDelay);
             }
         }
 
