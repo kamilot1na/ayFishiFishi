@@ -1,8 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { keyBy } from 'lodash';
-import { FishData, NetworkMode, useInterval, useMessageHandler, useMessageSender, useSettings } from 'common';
+import {FishData, NetworkMode, useInterval, useMessageHandler, useMessageSender, useSettings} from 'common';
 import moment from 'moment';
-
 import { Styled } from './Style';
 import { ControlPanel } from './ControlPanel';
 import { Pool } from './Pool/Pool';
@@ -18,6 +17,7 @@ type FishDTO = {
   y: number;
   direction: FishDirection;
   name: string;
+  threadId: number;
 };
 
 const predictNextPosition = (
@@ -71,7 +71,8 @@ export const FishHouse = () => {
       x: dto.x,
       y: dto.y,
       rotation: dto.direction === FishDirection.Right ? Math.PI : 0,
-      name: dto.name
+      name: dto.name,
+      threadId: dto.threadId,
     }));
 
     setCurrentData(prevData => {

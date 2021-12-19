@@ -16,12 +16,12 @@ namespace FishHouse.Controllers
 
         [HttpPost("thread")]
         public void AddThreadFish([FromBody] FishCreateDto dto) =>
-            _pool.AddFish(FishType.Thread, dto.Name);
+            Fish.StartFish(dto, _pool, FishType.Thread);
 
 
         [HttpPost("task")]
-        public void AddTaskFish([FromBody] FishCreateDto dto) => 
-            _pool.AddFish(FishType.Task, dto.Name);
+        public void AddTaskFish([FromBody] FishCreateDto dto) =>
+            Fish.StartFish(dto, _pool, FishType.Task);
 
         [HttpDelete]
         public void KillFish() =>
