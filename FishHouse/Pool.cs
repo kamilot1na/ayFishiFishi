@@ -10,14 +10,17 @@ namespace FishHouse
 {
     public class Pool
     {
-        private const int UpdateDelay = 10;
         public readonly ConcurrentDictionary<Guid, Fish> Fishes = new();
         public int Width => 1024;
 
-        public void AddFish(FishType type, string name)
+        public void AddFish(FishType type)
         {
             var random = new Random();
-            var fish = new Fish(type, random.Next(0, 600), random.Next(40, 600), name);
+            var fish = new Fish(
+                type, 
+                random.Next(0, 600), 
+                random.Next(40, 600),
+                random.Next(5, 200));
             Fishes.TryAdd(fish.Id, fish);
             StartTask(fish);
         }
@@ -62,7 +65,7 @@ namespace FishHouse
             while (Fishes.ContainsKey(fish.Id))
             {
                 MoveFish(fish);
-                Thread.Sleep(UpdateDelay);
+                Thread.Sleep(fish.UpdateDelay);
             }
         }
 
@@ -71,13 +74,13 @@ namespace FishHouse
             while (Fishes.ContainsKey(fish.Id))
             {
                 MoveFish(fish);
-                await Task.Delay(UpdateDelay);
+                await Task.Delay(fish.UpdateDelay);
             }
         }
 
         private void MoveFish(Fish fish)
         {
-            fish.Move();
+            fish.Update();
             if (fish.X >= Width - 90) 
                 fish.Direction = FishDirection.Left;
             else if (fish.X <= 0)

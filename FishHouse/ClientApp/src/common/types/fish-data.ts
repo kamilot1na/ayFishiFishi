@@ -1,6 +1,6 @@
 export enum FishType {
-  Thread,
-  Task
+  Task,
+  Thread
 }
 
 export type FishData = {
@@ -9,5 +9,7 @@ export type FishData = {
     rotation: number;
     state?: unknown;
     id: string;
-    name: string;
+    threadId: number;
+    updateDelay: number;
+    type: FishType;
 }

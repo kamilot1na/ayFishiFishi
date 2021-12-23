@@ -1,6 +1,6 @@
 import React from 'react';
-import { FishData } from 'common';
-import { Button, TextField } from '@material-ui/core';
+import { FishData, FishType } from 'common';
+import { Button, MenuItem, TextField } from '@material-ui/core';
 import { DeleteButton } from 'ui-kit';
 import { Styled } from './Style';
 import { useFishSaveHttpRequest } from './useFishSaveHttpRequest';
@@ -19,11 +19,35 @@ export const FishEdit = ({ fish }: FishEditProps) => {
 
       <TextField
         disabled
-        label="Имя"
+        label="Thread ID"
         variant="outlined"
         size="small"
-        value={fish.name}
+        value={fish.threadId}
       />
+
+      <br />
+
+      <TextField
+        disabled
+        label="Update delay"
+        variant="outlined"
+        size="small"
+        value={fish.updateDelay}
+      />
+
+      <br />
+
+      <TextField
+        disabled
+        select
+        value={fish.type}
+        label="Тип"
+        variant="outlined"
+        size="small"
+      >
+        <MenuItem value={FishType.Thread}>Thread</MenuItem>
+        <MenuItem value={FishType.Task}>Task</MenuItem>
+      </TextField>
 
       <Styled.ButtonWrapper>
         <Button

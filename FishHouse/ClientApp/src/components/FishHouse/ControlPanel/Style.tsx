@@ -4,7 +4,7 @@ const Root = styled('div')({
     backgroundColor: 'white',
     borderRadius: '10px',
     padding: '12px',
-    height: '50%'
+    height: '60%'
 });
 
 const ButtonWrapper = styled('div')({

@@ -11,18 +11,18 @@ export type FishProps = {
 };
 
 export const FishComponent = ({ fish, onClick, isSelected }: FishProps) => {
-  const { x, y, rotation, name } = fish;
+  const { x, y, rotation, threadId, type: fishType } = fish;
   const clampedRotation = clampRotation(rotation);
   let flipped = false;
   if(Math.abs(clampedRotation) >= Math.PI/2 && Math.abs(clampedRotation) <= 3*Math.PI / 2)
     flipped = true;
 
-  const classes = useClasses({ x, y, rotation, isSelected, flipped });
+  const classes = useClasses({ x, y, rotation, isSelected, flipped, fishType });
 
   return (
     <div>
       <div className={clsx(classes.nameWrapper)} >
-        <span>{name}</span>
+        <span>{threadId}</span>
       </div>
       <img
         src={fishImg}

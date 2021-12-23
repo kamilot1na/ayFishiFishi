@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace FishHouse.Models
 {
@@ -8,25 +9,30 @@ namespace FishHouse.Models
         public int X { get; protected set; }
         public int Y { get; protected set; }
         
-        public string Name { get; private set; }
+        public int ThreadId { get; private set; }
 
-        public readonly FishType Type;
+        public FishType Type { get; private set; }
 
         public FishDirection Direction { get; set; }
 
-        public Fish(FishType type, int x, int y, string name)
+        public int UpdateDelay { get; private set; }
+
+        public Fish(FishType type, int x, int y, int updateDelay)
         {
             var rnd = new Random();
             Type = type;
             Direction = (FishDirection) rnd.Next(0, 2);
             X = x;
             Y = y;
-            Name = name;
+            UpdateDelay = updateDelay;
         }
-        public void Move()
+        
+        public void Update()
         {
             if (Direction == FishDirection.Left) X--;
             else X++;
+
+            ThreadId = Thread.CurrentThread.ManagedThreadId;
         }
     }
 }
