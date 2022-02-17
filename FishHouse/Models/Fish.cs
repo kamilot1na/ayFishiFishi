@@ -5,7 +5,7 @@ namespace FishHouse.Models
 {
     public class Fish
     {
-        public Guid Id { get; } = Guid.NewGuid();
+        public Guid Id { get; set; } = Guid.NewGuid();
         public int X { get; protected set; }
         public int Y { get; protected set; }
         
@@ -15,7 +15,7 @@ namespace FishHouse.Models
 
         public FishDirection Direction { get; set; }
 
-        public int UpdateDelay { get; private set; }
+        public int UpdateDelay { get; set; }
 
         public Fish(FishType type, int x, int y, int updateDelay)
         {

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { keyBy } from 'lodash';
-import { FishData, FishType, NetworkMode, useInterval, useMessageHandler, useMessageSender, useSettings } from 'common';
+import { FishData, FishType, NetworkMode, useInterval, useMessageHandler, useSettings } from 'common';
 import moment from 'moment';
 
 import { Styled } from './Style';
@@ -46,7 +46,6 @@ const predictNextPosition = (
 }
 
 const FISH_DATA_MESSAGE = 'ReceiveMessage';
-const FISH_DATA_REQUEST_MESSAGE = 'SendMessage';
 
 export const FishHouse = () => {
   const [data, setData] = useState<FishData[]>([/* { x: 500, y: 500, rotation: 0, id: v4() } */]);
@@ -62,10 +61,7 @@ export const FishHouse = () => {
   const lastPredictiveStepTime = useRef(moment.now());
   const lastDeltaPredictiveStepTime = useRef(10);
 
-  const updateInterval = useInterval(settings.updateFrequency);
   const predictiveStepInterval = useInterval(10);
-
-  const { send: sendDataRequest } = useMessageSender(FISH_DATA_REQUEST_MESSAGE);
 
   useMessageHandler(FISH_DATA_MESSAGE, (dtos: FishDTO[]) => {
     const newData = dtos.map(dto => ({
@@ -90,10 +86,6 @@ export const FishHouse = () => {
 
     setSelected(newData.find(fish => fish.id === selected?.id) ?? null);
   });
-
-  useEffect(() => {
-      sendDataRequest();
-  }, [updateInterval]);
 
   useEffect(() => {
     if(settings.networkMode === NetworkMode.Predictive)

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { FishData, FishType } from 'common';
 import { Button, MenuItem, TextField } from '@material-ui/core';
 import { DeleteButton } from 'ui-kit';
@@ -12,6 +12,11 @@ export type FishEditProps = {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const FishEdit = ({ fish }: FishEditProps) => {
   const { call } = useFishSaveHttpRequest();
+  const [fishUpdateDelay, setFishUpdateDelay] = useState(fish.updateDelay);
+
+  const handleFishUpdateDelayChange = useCallback((e: React.ChangeEvent<{ value: unknown }>) => {
+    setFishUpdateDelay(e.target.value as number);
+  }, [setFishUpdateDelay]);
 
   return (
     <Styled.Root>
@@ -28,11 +33,11 @@ export const FishEdit = ({ fish }: FishEditProps) => {
       <br />
 
       <TextField
-        disabled
         label="Update delay"
         variant="outlined"
         size="small"
-        value={fish.updateDelay}
+        value={fishUpdateDelay}
+        onChange={handleFishUpdateDelayChange}
       />
 
       <br />
@@ -51,15 +56,13 @@ export const FishEdit = ({ fish }: FishEditProps) => {
 
       <Styled.ButtonWrapper>
         <Button
-          disabled
           variant="outlined"
-          onClick={call}
+          onClick={() => call(fish.id, fishUpdateDelay)}
         >Сохранить</Button>
 
         <DeleteButton
           disabled
           variant="outlined"
-          onClick={call}
         >Удалить</DeleteButton>
       </Styled.ButtonWrapper>
     </Styled.Root>

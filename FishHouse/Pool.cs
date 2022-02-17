@@ -13,16 +13,21 @@ namespace FishHouse
         public readonly ConcurrentDictionary<Guid, Fish> Fishes = new();
         public int Width => 1024;
 
-        public void AddFish(FishType type)
+        public void AddFish(FishType type, int updateDelay)
         {
             var random = new Random();
             var fish = new Fish(
                 type, 
                 random.Next(0, 600), 
                 random.Next(40, 600),
-                random.Next(5, 200));
+                updateDelay);
             Fishes.TryAdd(fish.Id, fish);
             StartTask(fish);
+        }
+
+        public void EditFish(Guid guid, int updateDelay)
+        {
+            Fishes[guid].UpdateDelay = updateDelay;
         }
 
         public List<Fish> GetFishes() => Fishes.Select(x => x.Value).ToList();

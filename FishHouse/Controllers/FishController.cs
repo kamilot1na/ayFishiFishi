@@ -1,4 +1,5 @@
-﻿using FishHouse.DTOs;
+﻿using System;
+using FishHouse.DTOs;
 using FishHouse.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,14 +15,15 @@ namespace FishHouse.Controllers
             _pool = pool;
         }
 
-        [HttpPost("thread")]
-        public void AddThreadFish() =>
-            _pool.AddFish(FishType.Thread);
+        [HttpPost("create")]
+        public void AddFish([FromBody] FishCreateDto data) =>
+            _pool.AddFish(data.Type, data.UpdateDelay);
 
-
-        [HttpPost("task")]
-        public void AddTaskFish() => 
-            _pool.AddFish(FishType.Task);
+        [HttpPost("{guid}/edit")]
+        public void EditFish(string guid, [FromBody] FishEditDto data)
+        {
+            _pool.EditFish(new Guid(guid), data.UpdateDelay);
+        }
 
         [HttpDelete]
         public void KillFish() =>

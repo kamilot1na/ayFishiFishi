@@ -1,7 +1,10 @@
-﻿namespace FishHouse.DTOs
+﻿using FishHouse.Models;
+
+namespace FishHouse.DTOs
 {
     public class FishCreateDto
     {
-        public string Name { get; set; }
+        public FishType Type { get; set; }
+        public int UpdateDelay { get; set; }
     }
 }
