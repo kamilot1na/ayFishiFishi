@@ -10,5 +10,6 @@ export type FishData = {
     state?: unknown;
     id: string;
     name: string;
+    type: FishType;
     threadId: number;
 }
